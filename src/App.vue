@@ -1,28 +1,350 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="page-shell">
+    <aside class="left-rail">
+      <img
+        class="left-placeholder"
+        src="./assets/images/sidebar_placeholder.png"
+        alt="Sidebar placeholder"
+      >
+    </aside>
+
+    <main class="content-stage">
+      <section class="white-column">
+        <div class="inner-pad">
+          <div class="column-stack">
+            <NewVideoHeader />
+            <RecommendedPackageCard @open-info="openInfoOverlay" @open-edit="openEditOverlay" />
+            <CreatorsCard @open-info="openInfoOverlay" />
+            <CheckoutCard />
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="right-rail">
+      <img
+        class="right-placeholder"
+        src="./assets/images/hooks_placeholder.png"
+        alt="Hooks placeholder"
+      >
+    </aside>
+
+    <div
+      v-if="activeOverlay"
+      class="faq-overlay"
+      @click.self="closeActiveOverlay"
+    >
+      <div v-if="activeOverlay === 'faq'" class="faq-overlay__panel">
+        <button
+          type="button"
+          class="faq-overlay__close icon-button-reset interactive-hover"
+          aria-label="Close article"
+          @click="closeActiveOverlay"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6L18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </button>
+
+        <div class="faq-overlay__body">
+          <FaqArticle :initial-section="infoOverlaySection" />
+        </div>
+      </div>
+
+      <div v-else-if="activeOverlay === 'edit'" class="customize-overlay__panel">
+        <CustomizeVideoPopup @close="closeActiveOverlay" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NewVideoHeader from './components/NewVideoHeader.vue'
+import RecommendedPackageCard from './components/RecommendedPackageCard.vue'
+import CreatorsCard from './components/CreatorsCard.vue'
+import CheckoutCard from './components/CheckoutCard.vue'
+import FaqArticle from './components/FaqArticle.vue'
+import CustomizeVideoPopup from './components/CustomizeVideoPopup.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    NewVideoHeader,
+    RecommendedPackageCard,
+    CreatorsCard,
+    CheckoutCard,
+    FaqArticle,
+    CustomizeVideoPopup,
+  },
+  data() {
+    return {
+      activeOverlay: null,
+      infoOverlaySection: 'duration',
+    }
+  },
+  watch: {
+    activeOverlay(nextValue) {
+      document.body.style.overflow = nextValue ? 'hidden' : ''
+    },
+  },
+  methods: {
+    openInfoOverlay(section = 'duration') {
+      this.infoOverlaySection = section
+      this.activeOverlay = 'faq'
+    },
+    openEditOverlay() {
+      this.activeOverlay = 'edit'
+    },
+    closeActiveOverlay() {
+      this.activeOverlay = null
+    },
+    handleEscape(event) {
+      if (event.key === 'Escape' && this.activeOverlay) {
+        this.closeActiveOverlay()
+      }
+    },
+  },
+  mounted() {
+    window.addEventListener('keydown', this.handleEscape)
+  },
+  beforeDestroy() {
+    document.body.style.overflow = ''
+    window.removeEventListener('keydown', this.handleEscape)
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.page-shell {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: clamp(120px, 14vw, 260px) minmax(620px, 760px) minmax(520px, 860px);
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-app-bg);
+}
+
+.left-rail {
+  width: 100%;
+  background: var(--color-app-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.left-placeholder {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 16px;
+  position: sticky;
+  top: 16px;
+}
+
+.content-stage {
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--color-surface);
+  scroll-behavior: smooth;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.content-stage::-webkit-scrollbar {
+  display: none;
+}
+
+.white-column {
+  width: 100%;
+  min-height: 100%;
+  background: var(--color-surface);
+}
+
+.inner-pad {
+  padding: 80px;
+}
+
+.column-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-bottom: 80px;
+}
+
+.right-rail {
+  width: 100%;
+  min-width: 0;
+  background: var(--color-app-bg);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.right-placeholder {
+  display: block;
+  width: 592px;
+  height: 570px;
+  max-width: none;
+  flex: 0 0 auto;
+  object-fit: contain;
+  margin-top: 80px;
+  position: sticky;
+  top: 80px;
+}
+
+.faq-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(23, 23, 28, 0.44);
+  backdrop-filter: blur(10px);
+}
+
+.faq-overlay__panel {
+  position: relative;
+  width: min(1240px, 100%);
+  height: 100%;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 32px 90px rgba(12, 17, 24, 0.18);
+  overflow: hidden;
+}
+
+.faq-overlay__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: rgba(23, 23, 28, 0.08);
+  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faq-overlay__body {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 56px 72px 72px;
+  scroll-behavior: smooth;
+}
+
+.faq-overlay__body::-webkit-scrollbar {
+  width: 10px;
+}
+
+.faq-overlay__body::-webkit-scrollbar-thumb {
+  background: rgba(26, 26, 26, 0.16);
+  border-radius: 999px;
+}
+
+.customize-overlay__panel {
+  width: 556px;
+  max-width: calc(100vw - 32px);
+  margin: auto;
+}
+
+@media (max-width: 1400px) {
+  .page-shell {
+    grid-template-columns: clamp(120px, 13vw, 220px) minmax(560px, 700px) minmax(420px, 700px);
+  }
+}
+
+@media (max-width: 1200px) {
+  .page-shell {
+    grid-template-columns: 104px minmax(500px, 620px) minmax(340px, 500px);
+  }
+
+  .left-placeholder {
+    width: calc(100% - 16px);
+    margin: 8px;
+    top: 8px;
+  }
+
+  .right-placeholder {
+    margin-top: 48px;
+    top: 48px;
+    width: 592px;
+    height: 570px;
+  }
+
+  .faq-overlay__body {
+    padding: 48px 48px 56px;
+  }
+}
+
+@media (max-width: 900px) {
+  html,
+  body,
+  #app {
+    height: auto;
+  }
+
+  body {
+    overflow: auto;
+  }
+
+  .page-shell {
+    display: block;
+    height: auto;
+    overflow: visible;
+    background: #f7f7f8;
+  }
+
+  .left-rail,
+  .right-rail {
+    display: none;
+  }
+
+  .white-column {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .inner-pad {
+    padding: 32px 24px;
+  }
+
+  .column-stack {
+    gap: 24px;
+    padding-bottom: 32px;
+  }
+
+  .faq-overlay {
+    padding: 0;
+    background: rgba(23, 23, 28, 0.72);
+  }
+
+  .faq-overlay__panel {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .faq-overlay__close {
+    top: 16px;
+    right: 16px;
+  }
+
+  .faq-overlay__body {
+    padding: 56px 24px 40px;
+  }
+
+  .customize-overlay__panel {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+  }
 }
 </style>
