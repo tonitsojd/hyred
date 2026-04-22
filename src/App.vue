@@ -41,9 +41,9 @@
           aria-label="Close article"
           @click="closeActiveOverlay"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 6L18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-            <path d="M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          <svg class="faq-overlay__close-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 5L19 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
         </button>
 
@@ -176,7 +176,7 @@ export default {
 .right-rail {
   width: 100%;
   min-width: 0;
-  background: var(--color-app-bg);
+  background: #f5f5f5;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -219,24 +219,39 @@ export default {
 
 .faq-overlay__close {
   position: absolute;
-  top: 24px;
+  top: 22px;
   right: 24px;
-  z-index: 2;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  background: rgba(23, 23, 28, 0.08);
+  z-index: 8;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
   color: var(--color-text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(22, 22, 26, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.faq-overlay__close::before {
+  inset: 0;
+  border-radius: inherit;
+}
+
+.faq-overlay__close-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
 }
 
 .faq-overlay__body {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 56px 72px 72px;
+  padding: 0 56px 72px;
   scroll-behavior: smooth;
 }
 
@@ -280,7 +295,7 @@ export default {
   }
 
   .faq-overlay__body {
-    padding: 48px 48px 56px;
+    padding: 0 48px 56px;
   }
 }
 

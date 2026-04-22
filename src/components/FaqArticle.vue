@@ -1,66 +1,69 @@
 <template>
   <section class="faq-article">
+    <header class="faq-header">
+      <h2 class="faq-title">What we recommend and why</h2>
+    </header>
+
     <div class="faq-grid">
       <nav class="faq-nav" aria-label="Article sections">
-        <a
+        <button
           v-for="section in sections"
           :key="section.id"
-          :href="`#faq-${section.id}`"
-          class="faq-nav-link interactive-hover"
-          :class="{ 'is-active': activeSection === section.id }"
-          @click.prevent="scrollToSection(section.id)"
+          type="button"
+          class="faq-nav-link icon-button-reset"
+          :class="{ 'is-active': section.id === activeSection }"
+          @click="scrollToSection(section.id)"
         >
           {{ section.label }}
-        </a>
+        </button>
       </nav>
 
       <div class="faq-content">
-        <h2 class="faq-title">What we recommend and why:</h2>
+        <section id="faq-duration" class="faq-section faq-section--duration">
+          <div class="faq-intro faq-intro--duration">
+            <h3 class="faq-section-heading">balanced duration<br>for optimal start</h3>
 
-        <section id="faq-duration" class="faq-section faq-section--duration" data-anchor-section data-section-id="duration">
-          <div class="faq-lead">
-            <h3 class="faq-section-heading">balanced duration</h3>
-            <p class="faq-copy">15s is best for impulse purchases.<br>60s is for premium and complex products.</p>
-            <p class="faq-copy">If you aren’t ready to commit to the extremes - 30s lets you do just about anything in between, get sales, and learn.</p>
+            <div class="faq-copy-stack">
+              <p class="faq-copy">15s is best for impulse purchases.<br>60s is for premium and complex products.</p>
+              <p class="faq-copy">If you aren’t ready to commit to the extremes –<br>30s lets you do anything in between, get sales, and learn.</p>
+            </div>
           </div>
 
           <div class="duration-table">
-            <div class="duration-table__labels">
-              <span>Duration</span>
-              <span>Format</span>
-              <span>Platform</span>
-            </div>
-
-            <div class="duration-table__columns">
-              <article
-                v-for="option in durationOptions"
-                :key="option.label"
-                class="duration-card"
-                :class="{ 'is-featured': option.featured }"
-              >
-                <h3 class="duration-card__title">{{ option.label }}</h3>
-                <p class="duration-card__copy">{{ option.format }}</p>
-                <p class="duration-card__copy">{{ option.platform }}</p>
-              </article>
-            </div>
+            <article
+              v-for="option in durationOptions"
+              :key="option.label"
+              class="duration-card"
+              :class="{ 'is-featured': option.featured }"
+            >
+              <h3 class="duration-card__title">{{ option.label }}</h3>
+              <p class="duration-card__copy">{{ option.format }}</p>
+              <p class="duration-card__copy">{{ option.platform }}</p>
+            </article>
           </div>
         </section>
 
-        <section id="faq-hooks" class="faq-section" data-anchor-section data-section-id="hooks">
-          <div class="faq-copy-stack">
-            <h3 class="faq-section-heading">intro is the most important and unpredictable part of the video.</h3>
-            <p class="faq-copy">Good news: short duration makes it really inexpensive to make 3-5 of them.</p>
-            <p class="faq-copy">Meta Ads Manager will find the winner automatically.<br>More hooks = better campaign performance on average.</p>
+        <section id="faq-hooks" class="faq-section faq-section--hooks">
+          <div class="faq-intro">
+            <h3 class="faq-section-heading">intro is crucial,<br>but you never know<br>which is the best one</h3>
+
+            <div class="faq-copy-stack">
+              <p class="faq-copy">Good news: each hook is only 3 seconds.<br>It’s really inexpensive to make 3-5 of them.</p>
+              <p class="faq-copy">Meta Ads Manager will find the winner automatically.<br>More hooks = better campaign performance on average.</p>
+            </div>
           </div>
 
-          <div class="hooks-panel">
+          <div class="hooks-layout">
             <div class="hooks-table">
               <div class="hooks-table__head">
-                <span></span>
-                <span>Spent</span>
-                <span>Impressions</span>
-                <span>Click-Through</span>
-                <span>Cost per result</span>
+                <span class="hooks-table__head-spacer"></span>
+
+                <div class="hooks-table__metrics-head">
+                  <span>Spent</span>
+                  <span>Impressions</span>
+                  <span>Click-Through</span>
+                  <span>Cost per result</span>
+                </div>
               </div>
 
               <div
@@ -73,67 +76,98 @@
                   <img :src="hook.image" :alt="hook.file" class="hooks-row__thumb">
                   <span>{{ hook.file }}</span>
                 </div>
-                <span>{{ hook.spent }}</span>
-                <span>{{ hook.impressions }}</span>
-                <span>{{ hook.ctr }}</span>
-                <span>{{ hook.cost }}</span>
+
+                <div class="hooks-row__metrics">
+                  <span>{{ hook.spent }}</span>
+                  <span>{{ hook.impressions }}</span>
+                  <span>{{ hook.ctr }}</span>
+                  <span>{{ hook.cost }}</span>
+                </div>
               </div>
             </div>
 
             <div class="hooks-note">
               <img :src="metaIllustration" alt="Meta result illustration" class="hooks-note__image">
-              <span>- "good job"</span>
+              <span>– “good job”</span>
             </div>
           </div>
         </section>
 
-        <section id="faq-editing" class="faq-section" data-anchor-section data-section-id="editing">
-          <div class="faq-copy-stack">
-            <h3 class="faq-section-heading">you probably don’t have an editing team. we do.</h3>
-            <p class="faq-copy">It costs us much less to edit a high quality final video,<br>than it will cost to you.</p>
-            <p class="faq-copy">You will either have to spend more time, or more money hiring someone.<br>We will edit any video for €79.</p>
+        <section id="faq-editing" class="faq-section faq-section--editing">
+          <div class="faq-intro">
+            <h3 class="faq-section-heading">you probably don’t<br>have an editing team.<br>we do.</h3>
+
+            <div class="faq-copy-stack">
+              <p class="faq-copy">It costs us much less to edit a high quality final video,<br>than it will cost to you.</p>
+              <p class="faq-copy">You will either have to spend more time, or more money<br>hiring someone. We will edit any video for €79.</p>
+            </div>
           </div>
 
-          <img :src="editingImage" alt="Editing workflow illustration" class="faq-visual faq-visual--editing">
-        </section>
-
-        <section id="faq-creators" class="faq-section" data-anchor-section data-section-id="creators">
-          <div class="faq-copy-stack faq-copy-stack--dense">
-            <h3 class="faq-section-heading">the best creators apply when they see the money.</h3>
-            <p class="faq-copy">We return 100% at any moment before you have confirmed your creators.<br>Choose how many creators you can afford at this time.</p>
-            <p class="faq-copy">In the end you will receive one fully edited video, with multiple hooks, per creator.<br>We don’t want to take money from you this early, but this policy allows us to attract<br>the best creators in the world.</p>
-            <p class="faq-copy">Book 4 creators or more, and get one for free.</p>
+          <div class="faq-visual-panel">
+            <img :src="editingImage" alt="Editing workflow illustration" class="faq-visual faq-visual--editing">
           </div>
         </section>
 
-        <section id="faq-photos" class="faq-section" data-anchor-section data-section-id="photos">
-          <div class="faq-copy-stack">
-            <h3 class="faq-section-heading">visual campaign continuity improves sales.</h3>
-            <p class="faq-copy">Ads, emails, organic social media posts - everything works better<br>with real matching photos.</p>
+        <section id="faq-creators" class="faq-section faq-section--creators">
+          <div class="faq-intro">
+            <h3 class="faq-section-heading">the best creators apply<br>when they see the<br>money</h3>
+
+            <div class="faq-copy-stack">
+              <p class="faq-copy">We return 100% at any moment before you have confirmed your creators.<br>Choose how many creators you can afford at this time.</p>
+              <p class="faq-copy">We don’t want to take money from you this early, but this policy<br>allows us to attract the best creators in the world.</p>
+              <p class="faq-copy">Book 4 creators or more, and get one for free.</p>
+            </div>
           </div>
 
-          <img :src="photosImage" alt="Photo campaign examples" class="faq-visual faq-visual--photos">
-        </section>
-
-        <section id="faq-guarantee" class="faq-section" data-anchor-section data-section-id="guarantee">
-          <div class="faq-copy-stack">
-            <h3 class="faq-section-heading">We will refund you 50%, if Hyred videos underperform your current ads.</h3>
-            <p class="faq-copy">Performance Guarantee is included when you book 3 creators or more.</p>
+          <div class="faq-visual-panel">
+            <img :src="creatorsImage" alt="Creators collage" class="faq-visual faq-visual--creators">
           </div>
         </section>
 
-        <section id="faq-the-process" class="faq-section faq-section--process" data-anchor-section data-section-id="the-process">
-          <div class="faq-process-tag">the process</div>
+        <section id="faq-photos" class="faq-section faq-section--photos">
+          <div class="faq-intro">
+            <h3 class="faq-section-heading">photos for your<br>campaign</h3>
 
-          <div class="faq-process-list">
-            <article
-              v-for="step in processSteps"
-              :key="step.title"
-              class="faq-process-item"
-            >
-              <h3 class="faq-process-item__title">{{ step.title }}</h3>
-              <p class="faq-process-item__copy">{{ step.copy }}</p>
-            </article>
+            <div class="faq-copy-stack">
+              <p class="faq-copy">Visual campaign continuity improves sales.</p>
+              <p class="faq-copy">Ads, emails, organic social media posts -<br>everything works better with real matching photos.</p>
+            </div>
+          </div>
+
+          <div class="faq-visual-panel">
+            <img :src="photosImage" alt="Photo campaign examples" class="faq-visual faq-visual--photos">
+          </div>
+        </section>
+
+        <section id="faq-guarantee" class="faq-section faq-section--guarantee">
+          <div class="faq-intro">
+            <h3 class="faq-section-heading">performance guarantee</h3>
+
+            <div class="faq-copy-stack">
+              <p class="faq-copy">We issue full refund, if Hyred videos underperform your current ads.</p>
+              <p class="faq-copy">Performance Guarantee is included when<br>you book 3 creators or more.</p>
+            </div>
+          </div>
+
+          <div class="faq-visual-panel">
+            <img :src="guaranteeImage" alt="Performance guarantee illustration" class="faq-visual faq-visual--guarantee">
+          </div>
+        </section>
+
+        <section id="faq-the-process" class="faq-section faq-section--process">
+          <div class="faq-intro faq-intro--process">
+            <h3 class="faq-section-heading">how we work<br>step by step</h3>
+
+            <div class="process-list">
+              <article
+                v-for="step in processSteps"
+                :key="step.title"
+                class="process-item"
+              >
+                <h4 class="process-item__title">{{ step.title }}</h4>
+                <p class="process-item__copy">{{ step.copy }}</p>
+              </article>
+            </div>
           </div>
         </section>
       </div>
@@ -142,12 +176,11 @@
 </template>
 
 <script>
-const HOOK_THUMB_1 = 'https://www.figma.com/api/mcp/asset/c326aba6-f87d-4674-b125-0a916539e9f3'
-const HOOK_THUMB_2 = 'https://www.figma.com/api/mcp/asset/5c31a9e3-9466-4303-a440-8995f2615666'
-const HOOK_THUMB_3 = 'https://www.figma.com/api/mcp/asset/47c85680-8fab-4c9a-a376-537873a5001d'
-const EDITING_IMAGE = 'https://www.figma.com/api/mcp/asset/b4028edb-d51a-4816-a80f-a1c6c0cfe45d'
-const PHOTOS_IMAGE = 'https://www.figma.com/api/mcp/asset/0d8f697a-0988-42d9-9580-71df2ce08cf4'
-const META_ILLUSTRATION = 'https://www.figma.com/api/mcp/asset/1d51988f-c1dd-44f2-9e91-41f728cdaa34'
+import META_ILLUSTRATION from '../assets/images/meta_guy.svg'
+import EDITING_IMAGE from '../assets/images/3 Editing.png'
+import CREATORS_IMAGE from '../assets/images/4 Creators.png'
+import PHOTOS_IMAGE from '../assets/images/5 Photos.png'
+import GUARANTEE_IMAGE from '../assets/images/6 Guarantee.png'
 
 export default {
   name: 'FaqArticle',
@@ -161,6 +194,8 @@ export default {
     return {
       activeSection: 'duration',
       observer: null,
+      isProgrammaticScroll: false,
+      scrollSettleTimeout: null,
       sections: [
         { id: 'duration', label: 'Duration' },
         { id: 'hooks', label: 'Hooks' },
@@ -193,7 +228,7 @@ export default {
       hooksRows: [
         {
           file: 'hook_1.mp4',
-          image: HOOK_THUMB_1,
+          image: 'https://www.figma.com/api/mcp/asset/c326aba6-f87d-4674-b125-0a916539e9f3',
           spent: '$18',
           impressions: '1,150',
           ctr: '0.8%',
@@ -202,7 +237,7 @@ export default {
         },
         {
           file: 'hook_2.mp4',
-          image: HOOK_THUMB_2,
+          image: 'https://www.figma.com/api/mcp/asset/5c31a9e3-9466-4303-a440-8995f2615666',
           spent: '$41',
           impressions: '2,050',
           ctr: '1.4%',
@@ -211,7 +246,7 @@ export default {
         },
         {
           file: 'hook_3.mp4',
-          image: HOOK_THUMB_3,
+          image: 'https://www.figma.com/api/mcp/asset/47c85680-8fab-4c9a-a376-537873a5001d',
           spent: '$87',
           impressions: '4,400',
           ctr: '2.6%',
@@ -226,80 +261,120 @@ export default {
         },
         {
           title: 'Generate the brief',
-          copy: 'Tell us what is your product, and we’ll create the script in minutes.',
+          copy: 'Share your product, and we’ll create the script in minutes.',
         },
         {
-          title: 'Pick a favourite creator',
+          title: 'Pick your favourite creator',
           copy: 'Creators apply for your assignment. You view their portfolio and choose who you want to work with.',
         },
         {
-          title: 'Review',
-          copy: 'Creators have have 5 days to deliver the content. Unlimited revisions within the scope of the brief.',
+          title: 'Approve the video',
+          copy: 'Creators deliver the first draft video content. Unlimited revisions within the scope of the brief.',
         },
         {
           title: 'The video is yours forever',
-          copy: 'Once you’ve approved, the full rights are transferred to you.',
+          copy: 'The full rights are transferred to you automatically upon approval.',
         },
       ],
-      editingImage: EDITING_IMAGE,
-      photosImage: PHOTOS_IMAGE,
       metaIllustration: META_ILLUSTRATION,
+      editingImage: EDITING_IMAGE,
+      creatorsImage: CREATORS_IMAGE,
+      photosImage: PHOTOS_IMAGE,
+      guaranteeImage: GUARANTEE_IMAGE,
     }
   },
   mounted() {
-    this.activeSection = this.initialSection
+    this.activeSection = this.sections.some(section => section.id === this.initialSection)
+      ? this.initialSection
+      : 'duration'
+
     this.$nextTick(() => {
       this.setupObserver()
-      this.scrollToSection(this.initialSection, false)
+      this.scrollToSection(this.activeSection, false)
     })
-  },
-  watch: {
-    initialSection(nextSection) {
-      this.activeSection = nextSection
-      this.$nextTick(() => {
-        this.scrollToSection(nextSection, false)
-      })
-    },
   },
   beforeDestroy() {
     if (this.observer) {
       this.observer.disconnect()
     }
+
+    if (this.scrollSettleTimeout) {
+      window.clearTimeout(this.scrollSettleTimeout)
+    }
+  },
+  watch: {
+    initialSection(nextSection) {
+      if (this.sections.some(section => section.id === nextSection)) {
+        this.activeSection = nextSection
+        this.$nextTick(() => {
+          this.scrollToSection(nextSection, false)
+        })
+      }
+    },
   },
   methods: {
     scrollToSection(sectionId, smooth = true) {
+      const root = this.$el.closest('.faq-overlay__body')
       const target = this.$el.querySelector(`#faq-${sectionId}`)
-      if (target) {
-        target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' })
+
+      if (!root || !target) {
+        return
       }
+
+      this.activeSection = sectionId
+      this.isProgrammaticScroll = true
+
+      if (this.scrollSettleTimeout) {
+        window.clearTimeout(this.scrollSettleTimeout)
+      }
+
+      const rootRect = root.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      const targetTopWithinRoot = targetRect.top - rootRect.top + root.scrollTop
+      const centeredTargetScrollTop = targetTopWithinRoot - (root.clientHeight - target.offsetHeight) / 2
+      const maxScrollTop = root.scrollHeight - root.clientHeight
+      const nextScrollTop = Math.max(0, Math.min(centeredTargetScrollTop, maxScrollTop))
+
+      root.scrollTo({
+        top: nextScrollTop,
+        behavior: smooth ? 'smooth' : 'auto',
+      })
+
+      this.scrollSettleTimeout = window.setTimeout(() => {
+        this.isProgrammaticScroll = false
+      }, smooth ? 800 : 0)
     },
     setupObserver() {
-      const root = this.$el.closest('.faq-overlay__body') || null
-      const sections = this.$el.querySelectorAll('[data-anchor-section]')
+      const root = this.$el.closest('.faq-overlay__body')
+      const sectionNodes = this.$el.querySelectorAll('.faq-section[id]')
 
-      if (!root || !sections.length) {
+      if (!root || !sectionNodes.length) {
         return
       }
 
       this.observer = new IntersectionObserver(
         entries => {
+          if (this.isProgrammaticScroll) {
+            return
+          }
+
           const visibleEntries = entries
             .filter(entry => entry.isIntersecting)
             .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
 
           if (visibleEntries.length) {
-            this.activeSection = visibleEntries[0].target.dataset.sectionId
+            this.activeSection = visibleEntries[0].target.id.replace('faq-', '')
           }
         },
         {
           root,
-          rootMargin: '-18% 0px -58% 0px',
-          threshold: [0.2, 0.35, 0.5, 0.7],
+          rootMargin: '-28% 0px -28% 0px',
+          threshold: [0.1, 0.25, 0.45, 0.65],
         }
       )
 
-      sections.forEach(section => {
-        this.observer.observe(section)
+      sectionNodes.forEach(sectionNode => {
+        this.observer.observe(sectionNode)
       })
     },
   },
@@ -308,148 +383,151 @@ export default {
 
 <style scoped>
 .faq-article {
-  padding-top: 72px;
+  --faq-body-color: rgba(26, 26, 26, 0.65);
+
+  padding-top: 0;
+}
+
+.faq-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  margin: 0 -56px 28px;
+  padding: 32px 120px 24px 56px;
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid rgba(22, 22, 26, 0.16);
+  backdrop-filter: blur(8px);
+}
+
+.faq-title {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
 }
 
 .faq-grid {
   display: grid;
-  grid-template-columns: 132px minmax(0, 1fr);
-  column-gap: 46px;
+  grid-template-columns: 154px 726px;
+  column-gap: 100px;
   align-items: start;
+  margin-top: 40px;
 }
 
 .faq-nav {
   position: sticky;
-  top: 80px;
+  top: 96px;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 10px;
+  align-self: start;
+  padding: 4px 0 8px;
 }
 
 .faq-nav-link {
+  width: fit-content;
+  padding: 12px;
+  border-radius: 8px;
   font-weight: var(--font-weight-medium);
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.2;
-  letter-spacing: var(--letter-spacing-body);
-  color: rgba(26, 26, 26, 0.5);
+  letter-spacing: -0.025em;
+  color: var(--faq-body-color);
   text-decoration: none;
-  transition: color 160ms ease, transform 160ms ease, opacity 160ms ease;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
-.faq-nav-link::after {
-  content: '';
-  display: inline-block;
-  width: 0;
+.faq-nav-link:hover,
+.faq-nav-link:focus-visible {
+  background: rgba(226, 238, 225, 0.68);
+  color: rgba(26, 26, 26, 0.9);
 }
 
 .faq-nav-link.is-active {
-  font-weight: var(--font-weight-medium);
+  background: #e2eee1;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text);
-  transform: none;
-}
-
-.faq-nav-link.is-active::before {
-  content: '– ';
 }
 
 .faq-content {
-  min-width: 0;
-}
-
-.faq-title {
-  margin: 0 0 84px;
-  font-weight: var(--font-weight-semibold);
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: -0.025em;
-  color: var(--color-text);
+  width: 726px;
+  min-width: 726px;
+  padding-bottom: 42vh;
 }
 
 .faq-section {
-  scroll-margin-top: 72px;
-  margin-bottom: 104px;
+  margin: 0;
+  width: 726px;
 }
 
-.faq-section:last-child {
-  margin-bottom: 0;
+.faq-section + .faq-section {
+  margin-top: 120px;
 }
 
-.faq-lead,
+.faq-intro {
+  display: grid;
+  grid-template-columns: 214px 488px;
+  column-gap: 24px;
+  align-items: start;
+  width: 726px;
+}
+
+.faq-section-heading {
+  width: 214px;
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  font-size: 18px;
+  line-height: 1.22;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
 .faq-copy-stack {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.faq-copy-stack--dense {
-  gap: 14px;
-}
-
-.faq-section-heading {
-  margin: 0;
-  max-width: 670px;
-  font-weight: var(--font-weight-medium);
-  font-size: 18px;
-  line-height: 1.2;
-  letter-spacing: -0.005em;
-  color: var(--color-text);
-}
-
 .faq-copy {
   margin: 0;
-  max-width: 670px;
+  max-width: 488px;
   font-weight: var(--font-weight-medium);
   font-size: 14px;
-  line-height: 1.2;
+  line-height: 1.28;
   letter-spacing: var(--letter-spacing-body);
-  color: rgba(26, 26, 26, 0.82);
+  color: var(--faq-body-color);
 }
 
 .duration-table {
-  margin-top: 34px;
+  margin-top: 28px;
   display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
-  column-gap: 32px;
-  align-items: start;
-}
-
-.duration-table__labels {
-  padding-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-}
-
-.duration-table__labels span {
-  font-weight: var(--font-weight-medium);
-  font-size: 14px;
-  line-height: 19px;
-  letter-spacing: var(--letter-spacing-body);
-  color: rgba(26, 26, 26, 0.5);
-}
-
-.duration-table__columns {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: 238px 250px 238px;
+  border-radius: 18px;
+  overflow: hidden;
+  width: 726px;
 }
 
 .duration-card {
-  padding: 12px 12px 14px;
-  border-radius: 10px;
-  background: transparent;
+  min-height: 172px;
+  padding: 18px 20px 16px;
+  background: #e2eee1;
 }
 
 .duration-card.is-featured {
-  background: rgba(1, 130, 251, 0.18);
+  background: #9fea68;
 }
 
 .duration-card__title {
-  margin: 0 0 14px;
+  margin: 0 0 22px;
   font-weight: var(--font-weight-semibold);
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1;
-  letter-spacing: var(--letter-spacing-body);
+  letter-spacing: -0.02em;
   color: var(--color-text);
 }
 
@@ -457,110 +535,121 @@ export default {
   margin: 0;
   font-weight: var(--font-weight-medium);
   font-size: 14px;
-  line-height: 19px;
+  line-height: 1.35;
   letter-spacing: var(--letter-spacing-body);
-  color: var(--color-text);
+  color: var(--faq-body-color);
 }
 
 .duration-card__copy + .duration-card__copy {
-  margin-top: 18px;
+  margin-top: 22px;
 }
 
-.hooks-panel {
-  margin-top: 42px;
-  display: flex;
-  align-items: flex-end;
-  gap: 22px;
+.hooks-layout {
+  position: relative;
+  width: 726px;
+  margin-top: 28px;
 }
 
 .hooks-table {
-  flex: 1 1 auto;
-  min-width: 0;
+  width: 726px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #e2eee1;
 }
 
 .hooks-table__head,
 .hooks-row {
   display: grid;
-  grid-template-columns: minmax(180px, 1.35fr) repeat(4, minmax(68px, 0.68fr));
-  column-gap: 16px;
+  grid-template-columns: 313px 413px;
   align-items: center;
 }
 
 .hooks-table__head {
-  margin-bottom: 10px;
-  padding: 0 12px;
+  min-height: 44px;
+  background: rgba(226, 238, 225, 0.94);
 }
 
-.hooks-table__head span {
+.hooks-table__head-spacer {
+  display: block;
+}
+
+.hooks-table__metrics-head,
+.hooks-row__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  transform: translateX(-64px);
+}
+
+.hooks-table__metrics-head span {
   font-weight: var(--font-weight-medium);
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1;
   text-align: center;
-  color: rgba(26, 26, 26, 0.5);
-}
-
-.hooks-table__head span:first-child {
-  text-align: left;
+  color: var(--faq-body-color);
 }
 
 .hooks-row {
-  min-height: 42px;
-  padding: 6px 12px;
-  border-radius: 8px;
-}
-
-.hooks-row + .hooks-row {
-  margin-top: 8px;
+  min-height: 74px;
 }
 
 .hooks-row.is-featured {
-  background: rgba(1, 130, 251, 0.18);
-}
-
-.hooks-row > span {
-  font-weight: var(--font-weight-medium);
-  font-size: 14px;
-  line-height: 1;
-  text-align: center;
-  color: var(--color-text);
-}
-
-.hooks-row.is-featured > span {
-  font-weight: var(--font-weight-bold);
+  background: #9fea68;
 }
 
 .hooks-row__asset {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 24px;
+  padding: 0 18px;
 }
 
 .hooks-row__asset span {
   font-weight: var(--font-weight-medium);
   font-size: 14px;
   line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--faq-body-color);
+}
+
+.hooks-row.is-featured .hooks-row__asset span {
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text);
 }
 
 .hooks-row__thumb {
-  width: 28px;
-  height: 28px;
-  border-radius: 4px;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
   object-fit: cover;
-  object-position: center;
   display: block;
+  flex: 0 0 auto;
+}
+
+.hooks-row__metrics span {
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  color: var(--faq-body-color);
+}
+
+.hooks-row.is-featured .hooks-row__metrics span {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
 }
 
 .hooks-note {
-  flex: 0 0 auto;
+  position: absolute;
+  right: -138px;
+  bottom: -4px;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 6px;
 }
 
 .hooks-note__image {
-  width: 46px;
+  width: 84px;
   height: auto;
   display: block;
 }
@@ -569,112 +658,116 @@ export default {
   font-weight: var(--font-weight-medium);
   font-size: 14px;
   line-height: 1;
-  color: #000000;
+  color: var(--faq-body-color);
+  white-space: nowrap;
+}
+
+.faq-visual-panel {
+  width: 726px;
+  margin-top: 28px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #e2eee1;
 }
 
 .faq-visual {
   display: block;
+  width: 100%;
   height: auto;
 }
 
-.faq-visual--editing {
-  width: 528px;
-  margin-top: 42px;
+.faq-visual--editing,
+.faq-visual--creators,
+.faq-visual--photos,
+.faq-visual--guarantee {
+  object-fit: cover;
 }
 
-.faq-visual--photos {
-  width: 574px;
-  margin-top: 22px;
+.faq-intro--process {
+  align-items: start;
 }
 
-.faq-process-tag {
-  margin-bottom: 26px;
-  font-weight: var(--font-weight-semibold);
-  font-size: 14px;
-  line-height: 1;
-  letter-spacing: var(--letter-spacing-body);
-  color: var(--color-text);
-}
-
-.faq-process-list {
+.process-list {
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 32px;
+  width: 488px;
 }
 
-.faq-process-item__title {
-  margin: 0 0 10px;
+.process-item__title {
+  margin: 0 0 6px;
   font-weight: var(--font-weight-semibold);
-  font-size: 14px;
-  line-height: 1;
-  letter-spacing: var(--letter-spacing-body);
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   color: var(--color-text);
 }
 
-.faq-process-item__copy {
+.process-item__copy {
   margin: 0;
-  max-width: 873px;
   font-weight: var(--font-weight-medium);
   font-size: 14px;
-  line-height: 1.2;
-  color: var(--color-text);
+  line-height: 1.35;
+  letter-spacing: var(--letter-spacing-body);
+  color: var(--faq-body-color);
 }
 
 @media (max-width: 900px) {
-  .faq-article {
-    padding-top: 48px;
+  .faq-title {
+    font-size: 28px;
   }
 
   .faq-grid {
     grid-template-columns: 1fr;
-    row-gap: 28px;
+    row-gap: 24px;
   }
 
   .faq-nav {
     position: sticky;
-    top: 0;
-    z-index: 2;
+    top: 72px;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 14px 18px;
-    padding: 12px 0 16px;
-    background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.94) 100%);
+    gap: 10px 12px;
   }
 
-  .faq-nav-link {
-    font-size: 16px;
-  }
-
-  .faq-title {
-    margin-bottom: 72px;
-    font-size: 28px;
-  }
-
-  .faq-section {
-    margin-bottom: 88px;
+  .faq-intro {
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+    width: 100%;
   }
 
   .faq-section-heading {
-    font-size: 18px;
-    line-height: 1.32;
+    width: 214px;
+    max-width: 100%;
+  }
+
+  .faq-content,
+  .faq-section,
+  .duration-table,
+  .faq-visual-panel {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .faq-content {
+    padding-bottom: 24vh;
   }
 
   .duration-table {
     grid-template-columns: 1fr;
-    row-gap: 18px;
   }
 
-  .duration-table__labels {
-    display: none;
+  .duration-card {
+    min-height: 0;
   }
 
-  .duration-table__columns {
-    grid-template-columns: 1fr;
+  .faq-section + .faq-section {
+    margin-top: 72px;
   }
 
-  .hooks-panel {
-    flex-direction: column;
-    align-items: stretch;
+  .hooks-layout,
+  .hooks-table {
+    width: 100%;
   }
 
   .hooks-table__head {
@@ -682,22 +775,29 @@ export default {
   }
 
   .hooks-row {
-    grid-template-columns: 1fr 1fr;
-    row-gap: 12px;
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 14px 16px;
+    gap: 14px;
   }
 
   .hooks-row__asset {
-    grid-column: 1 / -1;
+    padding: 0;
+    gap: 14px;
+  }
+
+  .hooks-row__metrics {
+    gap: 10px;
   }
 
   .hooks-note {
-    margin-bottom: 0;
+    position: static;
+    margin-top: 14px;
+    justify-content: flex-end;
   }
 
-  .faq-visual--editing,
-  .faq-visual--photos {
+  .process-list {
     width: 100%;
-    max-width: 100%;
   }
 }
 </style>
