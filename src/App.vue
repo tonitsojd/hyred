@@ -226,6 +226,10 @@ export default {
   width: 556px;
   max-width: calc(100vw - 32px);
   margin: auto;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 1400px) {
@@ -311,12 +315,13 @@ export default {
   }
 
   .faq-overlay__body {
-    padding: 56px 24px 40px;
+    padding: 0;
   }
 
   .customize-overlay__panel {
     width: 100%;
     max-width: 100%;
+    height: 100%;
     padding: 16px;
   }
 }

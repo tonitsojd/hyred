@@ -265,8 +265,10 @@ export default {
   }
 
   .rp-body {
-    font-size: 11px;
-    line-height: 1.2;
+    font-size: 14px;
+    line-height: 1.24;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-text-soft);
     white-space: normal;
   }
 
@@ -287,8 +289,8 @@ export default {
   }
 
   .rp-total-value {
-    font-size: 12px;
-    line-height: 1.1;
+    font-size: 16px;
+    line-height: 1.2;
   }
 
   .rp-op-icon {

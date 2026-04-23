@@ -217,6 +217,7 @@ export default {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-left: auto;
 }
 
 .customize-row__copy {
@@ -339,11 +340,15 @@ export default {
     width: 100%;
   }
 
-  .customize-popup__header,
   .customize-row,
   .customize-popup__footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .customize-popup__header {
+    align-items: center;
+    flex-direction: row;
   }
 
   .customize-row__control--split {

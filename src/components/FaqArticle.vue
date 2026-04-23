@@ -20,6 +20,7 @@
         <button
           v-for="section in sections"
           :key="section.id"
+          :ref="`navLink-${section.id}`"
           type="button"
           class="faq-nav-link icon-button-reset"
           :class="{ 'is-active': section.id === activeSection }"
@@ -264,11 +265,18 @@ export default {
         })
       }
     },
+    activeSection() {
+      this.$nextTick(() => {
+        this.scrollActiveNavItemIntoView()
+      })
+    },
   },
   methods: {
     scrollToSection(sectionId, smooth = true) {
       const root = this.$el.closest('.faq-overlay__body')
       const target = this.$el.querySelector(`#faq-${sectionId}`)
+      const header = this.$el.querySelector('.faq-header')
+      const nav = this.$el.querySelector('.faq-nav')
 
       if (!root || !target) {
         return
@@ -284,9 +292,12 @@ export default {
       const rootRect = root.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
       const targetTopWithinRoot = targetRect.top - rootRect.top + root.scrollTop
-      const centeredTargetScrollTop = targetTopWithinRoot - (root.clientHeight - target.offsetHeight) / 2
+      const stickyHeaderHeight = header ? header.offsetHeight : 0
+      const stickyNavHeight = nav ? nav.offsetHeight : 0
+      const targetTopOffset = stickyHeaderHeight + stickyNavHeight + 32
+      const alignedTargetScrollTop = targetTopWithinRoot - targetTopOffset
       const maxScrollTop = root.scrollHeight - root.clientHeight
-      const nextScrollTop = Math.max(0, Math.min(centeredTargetScrollTop, maxScrollTop))
+      const nextScrollTop = Math.max(0, Math.min(alignedTargetScrollTop, maxScrollTop))
 
       root.scrollTo({
         top: nextScrollTop,
@@ -296,6 +307,39 @@ export default {
       this.scrollSettleTimeout = window.setTimeout(() => {
         this.isProgrammaticScroll = false
       }, smooth ? 800 : 0)
+    },
+    scrollActiveNavItemIntoView() {
+      const nav = this.$el.querySelector('.faq-nav')
+      const activeLinkRef = this.$refs[`navLink-${this.activeSection}`]
+      const activeLink = Array.isArray(activeLinkRef) ? activeLinkRef[0] : activeLinkRef
+
+      if (!nav || !activeLink) {
+        return
+      }
+
+      const navRect = nav.getBoundingClientRect()
+      const linkRect = activeLink.getBoundingClientRect()
+      const currentScrollLeft = nav.scrollLeft
+      const linkLeftWithinNav = linkRect.left - navRect.left + currentScrollLeft
+      const linkRightWithinNav = linkLeftWithinNav + linkRect.width
+      const horizontalInset = 24
+
+      if (
+        linkLeftWithinNav >= currentScrollLeft + horizontalInset &&
+        linkRightWithinNav <= currentScrollLeft + nav.clientWidth - horizontalInset
+      ) {
+        return
+      }
+
+      const targetScrollLeft = Math.max(
+        0,
+        linkLeftWithinNav - (nav.clientWidth - linkRect.width) / 2
+      )
+
+      nav.scrollTo({
+        left: targetScrollLeft,
+        behavior: 'smooth',
+      })
     },
     setupObserver() {
       const root = this.$el.closest('.faq-overlay__body')
@@ -381,7 +425,7 @@ export default {
   grid-template-columns: 154px 726px;
   column-gap: 100px;
   align-items: start;
-  margin-top: 40px;
+  margin-top: 24px;
   padding-left: 32px;
 }
 
@@ -393,7 +437,7 @@ export default {
   flex-direction: column;
   gap: 10px;
   align-self: start;
-  padding: 4px 0 8px;
+  padding: 0 0 8px;
   background: transparent;
 }
 
@@ -605,7 +649,7 @@ export default {
 
   .faq-grid {
     display: block;
-    margin-top: 0;
+    margin-top: 24px;
     padding-left: 0;
   }
 
@@ -649,8 +693,8 @@ export default {
   .faq-section-heading {
     width: 214px;
     max-width: 100%;
-    font-size: 14px;
-    line-height: 1.16;
+    font-size: 18px;
+    line-height: 1.22;
   }
 
   .faq-content,
@@ -664,7 +708,7 @@ export default {
   }
 
   .faq-content {
-    padding: 20px 0 32vh;
+    padding: 20px 24px 32vh;
   }
 
   .faq-copy-stack {
@@ -674,7 +718,7 @@ export default {
   .faq-copy {
     max-width: none;
     font-size: 14px;
-    line-height: 1.24;
+    line-height: 1.28;
   }
 
   .duration-table {
@@ -690,12 +734,12 @@ export default {
 
   .duration-card__title {
     margin-bottom: 14px;
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .duration-card__copy {
-    font-size: 11px;
-    line-height: 1.25;
+    font-size: 14px;
+    line-height: 1.35;
   }
 
   .duration-card__copy + .duration-card__copy {

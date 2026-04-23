@@ -160,7 +160,7 @@ export default {
 
 @media (max-width: 700px) {
   .co-card {
-    padding: 14px 14px 0;
+    padding: 14px;
   }
 
   .co-top {
