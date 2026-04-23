@@ -68,6 +68,35 @@
         <div class="rp-body">Total</div>
         <div class="rp-total-value">€226</div>
       </div>
+
+      <div class="rp-actions-mobile">
+        <button type="button" class="rp-link rp-link--mobile inline-action interactive-hover" @click="$emit('open-info', 'duration')">
+          <svg class="rp-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.75" />
+            <path d="M12 10.25V16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+            <circle cx="12" cy="7.5" r="1" fill="currentColor" />
+          </svg>
+          <span class="rp-link-text">What is this?</span>
+        </button>
+
+        <button type="button" class="rp-link rp-link--mobile inline-action interactive-hover" @click="$emit('open-edit')">
+          <svg class="rp-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M4 20h4.25L19 9.25 14.75 5 4 15.75V20Z"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12.75 7 17 11.25"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span class="rp-link-text">Edit</span>
+        </button>
+      </div>
     </div>
   </section>
 </template>
@@ -193,28 +222,105 @@ export default {
   white-space: nowrap;
 }
 
+.rp-actions-mobile {
+  display: none;
+}
+
 @media (max-width: 700px) {
+  .rp-card {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
   .rp-top {
-    flex-direction: column;
-    align-items: flex-start;
+    display: block;
+  }
+
+  .rp-subtitle {
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 1.3;
   }
 
   .rp-actions {
-    padding-top: 0;
+    display: none;
   }
 
   .rp-breakdown {
-    grid-template-columns: 1fr;
-    row-gap: 16px;
+    margin-top: 12px;
+    padding: 14px 14px 12px;
+    min-height: 0;
+    grid-template-columns: repeat(7, auto);
+    column-gap: 8px;
+    row-gap: 10px;
+    align-items: start;
+    justify-content: space-between;
   }
 
-  .rp-operator {
-    justify-content: flex-start;
+  .rp-item,
+  .rp-total {
+    gap: 2px;
+  }
+
+  .rp-body {
+    font-size: 11px;
+    line-height: 1.2;
+    white-space: normal;
+  }
+
+  .rp-item {
+    min-width: 0;
+  }
+
+  .rp-item:nth-child(1),
+  .rp-item:nth-child(3),
+  .rp-item:nth-child(5) {
+    width: 54px;
   }
 
   .rp-total {
+    width: 52px;
     align-items: flex-start;
     text-align: left;
+  }
+
+  .rp-total-value {
+    font-size: 12px;
+    line-height: 1.1;
+  }
+
+  .rp-op-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .rp-actions-mobile {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .rp-link--mobile {
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 8px;
+    background: #ffffff;
+    gap: 4px;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .rp-link--mobile::before {
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .rp-link--mobile .rp-icon {
+    width: 16px;
+    height: 16px;
   }
 }
 </style>

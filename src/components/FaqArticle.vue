@@ -2,6 +2,17 @@
   <section class="faq-article">
     <header class="faq-header">
       <h2 class="faq-title">What we recommend and why</h2>
+      <button
+        type="button"
+        class="faq-header__close icon-button-reset interactive-hover"
+        aria-label="Close article"
+        @click="$emit('close')"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 4L20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          <path d="M20 4L4 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+      </button>
     </header>
 
     <div class="faq-grid">
@@ -54,41 +65,9 @@
           </div>
 
           <div class="hooks-layout">
-            <div class="hooks-table">
-              <div class="hooks-table__head">
-                <span class="hooks-table__head-spacer"></span>
-
-                <div class="hooks-table__metrics-head">
-                  <span>Spent</span>
-                  <span>Impressions</span>
-                  <span>Click-Through</span>
-                  <span>Cost per result</span>
-                </div>
-              </div>
-
-              <div
-                v-for="hook in hooksRows"
-                :key="hook.file"
-                class="hooks-row"
-                :class="{ 'is-featured': hook.featured }"
-              >
-                <div class="hooks-row__asset">
-                  <img :src="hook.image" :alt="hook.file" class="hooks-row__thumb">
-                  <span>{{ hook.file }}</span>
-                </div>
-
-                <div class="hooks-row__metrics">
-                  <span>{{ hook.spent }}</span>
-                  <span>{{ hook.impressions }}</span>
-                  <span>{{ hook.ctr }}</span>
-                  <span>{{ hook.cost }}</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="hooks-note">
-              <img :src="metaIllustration" alt="Meta result illustration" class="hooks-note__image">
-              <span>– “good job”</span>
+            <div class="hooks-table-scroll">
+              <img :src="hooksTableDesktopImage" alt="Hooks performance table" class="hooks-table-image hooks-table-image--desktop">
+              <img :src="hooksTableMobileImage" alt="Hooks performance table" class="hooks-table-image hooks-table-image--mobile">
             </div>
           </div>
         </section>
@@ -176,14 +155,16 @@
 </template>
 
 <script>
-import META_ILLUSTRATION from '../assets/images/meta_guy.svg'
 import EDITING_IMAGE from '../assets/images/3 Editing.png'
 import CREATORS_IMAGE from '../assets/images/4 Creators.png'
 import PHOTOS_IMAGE from '../assets/images/5 Photos.png'
 import GUARANTEE_IMAGE from '../assets/images/6 Guarantee.png'
+import HOOKS_TABLE_DESKTOP_IMAGE from '../assets/icons/test_hooks_table_desktop.svg'
+import HOOKS_TABLE_MOBILE_IMAGE from '../assets/icons/test_hooks_table.svg'
 
 export default {
   name: 'FaqArticle',
+  emits: ['close'],
   props: {
     initialSection: {
       type: String,
@@ -225,35 +206,6 @@ export default {
           featured: false,
         },
       ],
-      hooksRows: [
-        {
-          file: 'hook_1.mp4',
-          image: 'https://www.figma.com/api/mcp/asset/c326aba6-f87d-4674-b125-0a916539e9f3',
-          spent: '$18',
-          impressions: '1,150',
-          ctr: '0.8%',
-          cost: '$18.00',
-          featured: false,
-        },
-        {
-          file: 'hook_2.mp4',
-          image: 'https://www.figma.com/api/mcp/asset/5c31a9e3-9466-4303-a440-8995f2615666',
-          spent: '$41',
-          impressions: '2,050',
-          ctr: '1.4%',
-          cost: '$10.20',
-          featured: false,
-        },
-        {
-          file: 'hook_3.mp4',
-          image: 'https://www.figma.com/api/mcp/asset/47c85680-8fab-4c9a-a376-537873a5001d',
-          spent: '$87',
-          impressions: '4,400',
-          ctr: '2.6%',
-          cost: '$6.40',
-          featured: true,
-        },
-      ],
       processSteps: [
         {
           title: 'Create the order',
@@ -276,7 +228,8 @@ export default {
           copy: 'The full rights are transferred to you automatically upon approval.',
         },
       ],
-      metaIllustration: META_ILLUSTRATION,
+      hooksTableDesktopImage: HOOKS_TABLE_DESKTOP_IMAGE,
+      hooksTableMobileImage: HOOKS_TABLE_MOBILE_IMAGE,
       editingImage: EDITING_IMAGE,
       creatorsImage: CREATORS_IMAGE,
       photosImage: PHOTOS_IMAGE,
@@ -391,9 +344,13 @@ export default {
 .faq-header {
   position: sticky;
   top: 0;
-  z-index: 3;
-  margin: 0 -56px 28px;
-  padding: 32px 120px 24px 56px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0;
+  padding: 32px 56px 24px;
   background: rgba(255, 255, 255, 0.98);
   border-bottom: 1px solid rgba(22, 22, 26, 0.16);
   backdrop-filter: blur(8px);
@@ -408,23 +365,36 @@ export default {
   color: var(--color-text);
 }
 
+.faq-header__close {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  border-radius: 8px;
+}
+
 .faq-grid {
   display: grid;
   grid-template-columns: 154px 726px;
   column-gap: 100px;
   align-items: start;
   margin-top: 40px;
+  padding-left: 32px;
 }
 
 .faq-nav {
   position: sticky;
   top: 96px;
-  z-index: 2;
+  z-index: 4;
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-self: start;
   padding: 4px 0 8px;
+  background: transparent;
 }
 
 .faq-nav-link {
@@ -550,116 +520,19 @@ export default {
   margin-top: 28px;
 }
 
-.hooks-table {
+.hooks-table-scroll {
   width: 726px;
-  border-radius: 18px;
-  overflow: hidden;
-  background: #e2eee1;
 }
 
-.hooks-table__head,
-.hooks-row {
-  display: grid;
-  grid-template-columns: 313px 413px;
-  align-items: center;
-}
-
-.hooks-table__head {
-  min-height: 44px;
-  background: rgba(226, 238, 225, 0.94);
-}
-
-.hooks-table__head-spacer {
+.hooks-table-image {
   display: block;
-}
-
-.hooks-table__metrics-head,
-.hooks-row__metrics {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: center;
-  transform: translateX(-64px);
-}
-
-.hooks-table__metrics-head span {
-  font-weight: var(--font-weight-medium);
-  font-size: 10px;
-  line-height: 1;
-  text-align: center;
-  color: var(--faq-body-color);
-}
-
-.hooks-row {
-  min-height: 74px;
-}
-
-.hooks-row.is-featured {
-  background: #9fea68;
-}
-
-.hooks-row__asset {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 0 18px;
-}
-
-.hooks-row__asset span {
-  font-weight: var(--font-weight-medium);
-  font-size: 14px;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--faq-body-color);
-}
-
-.hooks-row.is-featured .hooks-row__asset span {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text);
-}
-
-.hooks-row__thumb {
-  width: 48px;
-  height: 48px;
-  border-radius: 6px;
-  object-fit: cover;
-  display: block;
-  flex: 0 0 auto;
-}
-
-.hooks-row__metrics span {
-  font-weight: var(--font-weight-medium);
-  font-size: 14px;
-  line-height: 1;
-  text-align: center;
-  color: var(--faq-body-color);
-}
-
-.hooks-row.is-featured .hooks-row__metrics span {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text);
-}
-
-.hooks-note {
-  position: absolute;
-  right: -138px;
-  bottom: -4px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hooks-note__image {
-  width: 84px;
+  width: 726px;
   height: auto;
-  display: block;
+  border-radius: 18px;
 }
 
-.hooks-note span {
-  font-weight: var(--font-weight-medium);
-  font-size: 14px;
-  line-height: 1;
-  color: var(--faq-body-color);
-  white-space: nowrap;
+.hooks-table-image--mobile {
+  display: none;
 }
 
 .faq-visual-panel {
@@ -713,91 +586,170 @@ export default {
 }
 
 @media (max-width: 900px) {
+  .faq-header {
+    margin: 0;
+    padding: 10px 16px 14px;
+    gap: 16px;
+  }
+
   .faq-title {
-    font-size: 28px;
+    font-size: 24px;
+    line-height: 1.06;
+    letter-spacing: -0.04em;
+  }
+
+  .faq-header__close {
+    width: 32px;
+    height: 32px;
   }
 
   .faq-grid {
-    grid-template-columns: 1fr;
-    row-gap: 24px;
+    display: block;
+    margin-top: 0;
+    padding-left: 0;
   }
 
   .faq-nav {
     position: sticky;
-    top: 72px;
+    top: 76px;
+    z-index: 4;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px 12px;
+    flex-wrap: nowrap;
+    gap: 12px;
+    width: 100%;
+    margin: 0;
+    padding: 14px 16px 16px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+    border-bottom: 1px solid rgba(22, 22, 26, 0.16);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(8px);
+  }
+
+  .faq-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .faq-nav-link {
+    flex: 0 0 auto;
+    font-size: 16px;
+    line-height: 1.15;
+    padding: 10px 14px;
   }
 
   .faq-intro {
     grid-template-columns: 1fr;
-    row-gap: 16px;
+    row-gap: 14px;
     width: 100%;
   }
 
   .faq-section-heading {
     width: 214px;
     max-width: 100%;
+    font-size: 14px;
+    line-height: 1.16;
   }
 
   .faq-content,
   .faq-section,
   .duration-table,
-  .faq-visual-panel {
+  .faq-visual-panel,
+  .hooks-layout,
+  .hooks-table-scroll {
     width: 100%;
     min-width: 0;
   }
 
   .faq-content {
-    padding-bottom: 24vh;
+    padding: 20px 0 32vh;
+  }
+
+  .faq-copy-stack {
+    gap: 12px;
+  }
+
+  .faq-copy {
+    max-width: none;
+    font-size: 14px;
+    line-height: 1.24;
   }
 
   .duration-table {
+    margin-top: 18px;
     grid-template-columns: 1fr;
+    border-radius: 12px;
   }
 
   .duration-card {
     min-height: 0;
+    padding: 12px 14px;
+  }
+
+  .duration-card__title {
+    margin-bottom: 14px;
+    font-size: 14px;
+  }
+
+  .duration-card__copy {
+    font-size: 11px;
+    line-height: 1.25;
+  }
+
+  .duration-card__copy + .duration-card__copy {
+    margin-top: 14px;
   }
 
   .faq-section + .faq-section {
-    margin-top: 72px;
+    margin-top: 80px;
   }
 
-  .hooks-layout,
-  .hooks-table {
-    width: 100%;
+  .hooks-layout {
+    margin-top: 18px;
   }
 
-  .hooks-table__head {
+  .hooks-table-scroll {
+    overflow-x: auto;
+    overflow-y: visible;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .hooks-table-scroll::-webkit-scrollbar {
     display: none;
   }
 
-  .hooks-row {
-    grid-template-columns: 1fr;
-    min-height: 0;
-    padding: 14px 16px;
-    gap: 14px;
+  .hooks-table-image--desktop {
+    display: none;
   }
 
-  .hooks-row__asset {
-    padding: 0;
-    gap: 14px;
-  }
-
-  .hooks-row__metrics {
-    gap: 10px;
-  }
-
-  .hooks-note {
-    position: static;
-    margin-top: 14px;
-    justify-content: flex-end;
+  .hooks-table-image--mobile {
+    display: block;
+    min-width: 538px;
+    width: 538px;
+    border-radius: 12px;
   }
 
   .process-list {
     width: 100%;
+    gap: 24px;
+  }
+
+  .process-item__title {
+    margin-bottom: 4px;
+    font-size: 16px;
+  }
+
+  .process-item__copy {
+    font-size: 14px;
+    line-height: 1.24;
+  }
+
+  .faq-visual-panel {
+    margin-top: 18px;
+    border-radius: 12px;
   }
 }
 </style>

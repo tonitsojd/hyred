@@ -277,19 +277,75 @@ export default {
 }
 
 @media (max-width: 700px) {
+  .cr-card {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
   .cr-header {
-    flex-direction: column;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px 16px;
+    align-items: start;
+  }
+
+  .cr-heading-row {
+    gap: 0;
+  }
+
+  .cr-link {
+    display: none;
+  }
+
+  .cr-subtitle {
+    margin-top: 6px;
+    max-width: 245px;
+    font-size: 14px;
+    line-height: 1.3;
   }
 
   .cr-counter {
-    width: 160px;
-    height: 52px;
-    padding: 0 20px;
+    width: 92px;
+    height: 38px;
+    padding: 0 8px;
+    gap: 4px;
+    justify-self: end;
+    margin-top: 2px;
+  }
+
+  .cr-counter-btn {
+    width: 22px;
+    height: 22px;
+  }
+
+  .cr-counter-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .cr-counter-value {
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 6px;
   }
 
   .cr-option {
-    align-items: flex-start;
+    min-height: 60px;
+    padding: 14px 16px;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cr-options {
+    margin-top: 14px;
+    gap: 10px;
+  }
+
+  .cr-option-text {
+    font-size: 14px;
+    line-height: 1.25;
   }
 }
 </style>

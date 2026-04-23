@@ -35,20 +35,8 @@
       @click.self="closeActiveOverlay"
     >
       <div v-if="activeOverlay === 'faq'" class="faq-overlay__panel">
-        <button
-          type="button"
-          class="faq-overlay__close icon-button-reset interactive-hover"
-          aria-label="Close article"
-          @click="closeActiveOverlay"
-        >
-          <svg class="faq-overlay__close-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 5L19 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            <path d="M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </button>
-
         <div class="faq-overlay__body">
-          <FaqArticle :initial-section="infoOverlaySection" />
+          <FaqArticle :initial-section="infoOverlaySection" @close="closeActiveOverlay" />
         </div>
       </div>
 
@@ -217,41 +205,11 @@ export default {
   overflow: hidden;
 }
 
-.faq-overlay__close {
-  position: absolute;
-  top: 22px;
-  right: 24px;
-  z-index: 8;
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.96);
-  color: var(--color-text);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 0 0 1px rgba(22, 22, 26, 0.08);
-  backdrop-filter: blur(8px);
-}
-
-.faq-overlay__close::before {
-  inset: 0;
-  border-radius: inherit;
-}
-
-.faq-overlay__close-icon {
-  display: block;
-  flex: 0 0 auto;
-  width: 32px;
-  height: 32px;
-}
-
 .faq-overlay__body {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0 56px 72px;
+  padding: 0;
   scroll-behavior: smooth;
 }
 
@@ -314,7 +272,7 @@ export default {
     display: block;
     height: auto;
     overflow: visible;
-    background: #f7f7f8;
+    background: #ffffff;
   }
 
   .left-rail,
@@ -328,12 +286,12 @@ export default {
   }
 
   .inner-pad {
-    padding: 32px 24px;
+    padding: 24px 14px 28px;
   }
 
   .column-stack {
-    gap: 24px;
-    padding-bottom: 32px;
+    gap: 36px;
+    padding-bottom: 20px;
   }
 
   .faq-overlay {

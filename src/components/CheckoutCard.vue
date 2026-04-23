@@ -159,9 +159,13 @@ export default {
 }
 
 @media (max-width: 700px) {
+  .co-card {
+    padding: 14px 14px 0;
+  }
+
   .co-top {
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
   }
 
   .co-left,
@@ -169,12 +173,63 @@ export default {
     width: 100%;
   }
 
+  .co-copy {
+    margin-top: 8px;
+    max-width: 238px;
+    line-height: 1.28;
+  }
+
+  .co-right {
+    gap: 10px;
+  }
+
   .co-row {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
+
+  .co-label,
+  .co-value,
+  .co-mid {
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  .co-label {
+    white-space: normal;
+  }
+
+  .co-value,
+  .co-mid {
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .co-row-total {
+    align-items: baseline;
+  }
+
+  .co-total {
+    font-size: 16px;
   }
 
   .co-button {
-    height: 68px;
+    height: 44px;
+    border-radius: 14px;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .co-bottom {
+    margin-top: 18px;
+    border-radius: 16px;
+  }
+
+  .co-refund {
+    min-height: 60px;
+    padding: 14px 20px;
+    font-size: 12px;
+    line-height: 1.3;
   }
 }
 </style>

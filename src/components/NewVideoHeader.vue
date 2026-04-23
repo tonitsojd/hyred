@@ -15,7 +15,11 @@
       >
         <span class="nv-lang-label">Language</span>
 
-        <span class="nv-flag nv-flag--emoji" aria-hidden="true">{{ selectedCountry.flag }}</span>
+        <img
+          class="nv-flag nv-flag--image"
+          :src="selectedCountry.flag"
+          :alt="`${selectedCountry.name} flag`"
+        >
 
         <span class="nv-lang-value">{{ selectedCountry.name }}</span>
 
@@ -55,7 +59,11 @@
           :aria-selected="String(country.code === selectedCountry.code)"
           @click="selectCountry(country)"
         >
-          <span class="nv-flag nv-flag--emoji" aria-hidden="true">{{ country.flag }}</span>
+          <img
+            class="nv-flag nv-flag--image"
+            :src="country.flag"
+            :alt="`${country.name} flag`"
+          >
           <span class="nv-lang-option-text">{{ country.name }}</span>
         </button>
       </div>
@@ -64,6 +72,25 @@
 </template>
 
 <script>
+import flagAustria from '../assets/icons/flags/at 2.svg'
+import flagAustralia from '../assets/icons/flags/au 5.svg'
+import flagBelgium from '../assets/icons/flags/be 2.svg'
+import flagSwitzerland from '../assets/icons/flags/ch 2.svg'
+import flagCzech from '../assets/icons/flags/cz 2.svg'
+import flagGermany from '../assets/icons/flags/de 2.svg'
+import flagDenmark from '../assets/icons/flags/dk 2.svg'
+import flagSpain from '../assets/icons/flags/es 2.svg'
+import flagFinland from '../assets/icons/flags/fi 2.svg'
+import flagFrance from '../assets/icons/flags/fr 2.svg'
+import flagUnitedKingdom from '../assets/icons/flags/gb 2.svg'
+import flagIreland from '../assets/icons/flags/ie 2.svg'
+import flagItaly from '../assets/icons/flags/it 2.svg'
+import flagNetherlands from '../assets/icons/flags/nl (1) 2.svg'
+import flagNorway from '../assets/icons/flags/no 2.svg'
+import flagPortugal from '../assets/icons/flags/pt 2.svg'
+import flagSweden from '../assets/icons/flags/se 2.svg'
+import flagUnitedStates from '../assets/icons/flags/us 1.svg'
+
 export default {
   name: 'NewVideoHeader',
   data() {
@@ -71,24 +98,24 @@ export default {
       isMenuOpen: false,
       selectedCountryCode: 'it',
       countries: [
-        { code: 'cz', name: 'Czech', flag: '🇨🇿' },
-        { code: 'dk', name: 'Danish', flag: '🇩🇰' },
-        { code: 'be', name: 'Dutch (Belgium)', flag: '🇧🇪' },
-        { code: 'nl', name: 'Dutch', flag: '🇳🇱' },
-        { code: 'au', name: 'English (Australia)', flag: '🇦🇺' },
-        { code: 'ie', name: 'English (Ireland)', flag: '🇮🇪' },
-        { code: 'gb', name: 'English (UK)', flag: '🇬🇧' },
-        { code: 'us', name: 'English (US)', flag: '🇺🇸' },
-        { code: 'fi', name: 'Finnish', flag: '🇫🇮' },
-        { code: 'fr', name: 'French', flag: '🇫🇷' },
-        { code: 'at', name: 'German (Austria)', flag: '🇦🇹' },
-        { code: 'de', name: 'German', flag: '🇩🇪' },
-        { code: 'ch', name: 'German (Switzerland)', flag: '🇨🇭' },
-        { code: 'it', name: 'Italian', flag: '🇮🇹' },
-        { code: 'no', name: 'Norwegian', flag: '🇳🇴' },
-        { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
-        { code: 'es', name: 'Spanish', flag: '🇪🇸' },
-        { code: 'se', name: 'Swedish', flag: '🇸🇪' },
+        { code: 'cz', name: 'Czech', flag: flagCzech },
+        { code: 'dk', name: 'Danish', flag: flagDenmark },
+        { code: 'be', name: 'Dutch (Belgium)', flag: flagBelgium },
+        { code: 'nl', name: 'Dutch', flag: flagNetherlands },
+        { code: 'au', name: 'English (Australia)', flag: flagAustralia },
+        { code: 'ie', name: 'English (Ireland)', flag: flagIreland },
+        { code: 'gb', name: 'English (UK)', flag: flagUnitedKingdom },
+        { code: 'us', name: 'English (US)', flag: flagUnitedStates },
+        { code: 'fi', name: 'Finnish', flag: flagFinland },
+        { code: 'fr', name: 'French', flag: flagFrance },
+        { code: 'at', name: 'German (Austria)', flag: flagAustria },
+        { code: 'de', name: 'German', flag: flagGermany },
+        { code: 'ch', name: 'German (Switzerland)', flag: flagSwitzerland },
+        { code: 'it', name: 'Italian', flag: flagItaly },
+        { code: 'no', name: 'Norwegian', flag: flagNorway },
+        { code: 'pt', name: 'Portuguese', flag: flagPortugal },
+        { code: 'es', name: 'Spanish', flag: flagSpain },
+        { code: 'se', name: 'Swedish', flag: flagSweden },
       ],
     }
   },
@@ -221,10 +248,11 @@ export default {
   flex: 0 0 auto;
 }
 
-.nv-flag--emoji {
+.nv-flag--image {
   width: 18px;
-  font-size: 18px;
-  line-height: 1;
+  height: 18px;
+  object-fit: cover;
+  display: block;
 }
 
 .nv-lang-menu {
@@ -291,10 +319,32 @@ export default {
   .nv-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 14px;
+  }
+
+  .nv-title {
+    font-size: 31px;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
   }
 
   .nv-subtitle {
     max-width: none;
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .nv-lang-pill {
+    height: 48px;
+    padding: 0 16px;
+    gap: 8px;
+    border-radius: 14px;
+  }
+
+  .nv-lang-label,
+  .nv-lang-value {
+    font-size: 14px;
   }
 
   .nv-lang-menu {

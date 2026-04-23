@@ -24,9 +24,13 @@
 
         <div class="customize-row__control customize-row__control--split">
           <div class="stepper stepper--duration">
-            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Decrease duration" @click="decrementDuration">-</button>
+            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Decrease duration" @click="decrementDuration">
+              <img src="../assets/icons/minus.svg" alt="" class="stepper__icon" aria-hidden="true">
+            </button>
             <span class="stepper__value">{{ selectedDuration.value }}</span>
-            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Increase duration" @click="incrementDuration">+</button>
+            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Increase duration" @click="incrementDuration">
+              <img src="../assets/icons/plus.svg" alt="" class="stepper__icon" aria-hidden="true">
+            </button>
           </div>
           <span class="customize-row__price">€99</span>
         </div>
@@ -40,9 +44,13 @@
 
         <div class="customize-row__control customize-row__control--split">
           <div class="stepper">
-            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Decrease hooks" @click="decrementHooks">-</button>
+            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Decrease hooks" @click="decrementHooks">
+              <img src="../assets/icons/minus.svg" alt="" class="stepper__icon" aria-hidden="true">
+            </button>
             <span class="stepper__value">{{ hooksCount }}</span>
-            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Increase hooks" @click="incrementHooks">+</button>
+            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Increase hooks" @click="incrementHooks">
+              <img src="../assets/icons/plus.svg" alt="" class="stepper__icon" aria-hidden="true">
+            </button>
           </div>
           <span class="customize-row__price">€48</span>
         </div>
@@ -77,9 +85,13 @@
 
         <div class="customize-row__control customize-row__control--split">
           <div class="stepper">
-            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Decrease photos" @click="decrementPhotos">-</button>
+            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Decrease photos" @click="decrementPhotos">
+              <img src="../assets/icons/minus.svg" alt="" class="stepper__icon" aria-hidden="true">
+            </button>
             <span class="stepper__value">{{ photosCount }}</span>
-            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Increase photos" @click="incrementPhotos">+</button>
+            <button type="button" class="stepper__button icon-button-reset interactive-hover" aria-label="Increase photos" @click="incrementPhotos">
+              <img src="../assets/icons/plus.svg" alt="" class="stepper__icon" aria-hidden="true">
+            </button>
           </div>
           <span class="customize-row__price">€79</span>
         </div>
@@ -98,6 +110,9 @@
 </template>
 
 <script>
+import plusIcon from '@/assets/icons/plus.svg'
+import minusIcon from '@/assets/icons/minus.svg'
+
 const DEFAULT_DURATION_INDEX = 1
 const DEFAULT_HOOKS = 2
 const DEFAULT_PHOTOS = 2
@@ -112,6 +127,8 @@ export default {
       hooksCount: DEFAULT_HOOKS,
       photosCount: DEFAULT_PHOTOS,
       editingEnabled: DEFAULT_EDITING,
+      plusIcon,
+      minusIcon,
       durationOptions: [
         { value: '15s', label: '15 seconds', description: 'Short intro - problem, product, and CTA' },
         { value: '30s', label: '30 seconds', description: 'Full length - intro, story, and CTA' },
@@ -256,6 +273,13 @@ export default {
 .stepper__button {
   width: 12px;
   text-align: center;
+}
+
+.stepper__icon {
+  display: block;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
 }
 
 .customize-toggle {
